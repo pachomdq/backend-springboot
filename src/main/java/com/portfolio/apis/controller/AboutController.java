@@ -4,12 +4,12 @@ import com.portfolio.apis.model.About;
 import com.portfolio.apis.service.IAboutService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,20 +23,20 @@ public class AboutController {
     public List<About> getAbout(){
         return interAbout.getAbout();
     }
-    /* Este elemento no se debe crear. Es unico en la base de datos en este diseño
+    //Este elemento no se debe crear. Es unico en la base de datos en este diseño
     @PostMapping("/about")
     public String createFact(@RequestBody About about){
         interAbout.saveAbout(about);
         return "OK 5/5 +++";
     }
-    */ 
+     
     
-    /* Este elemento no se puede borrar en este diseño
+    //Este elemento no se puede borrar en este diseño
     @DeleteMapping("/about/{id}")
     public String deleteFact(@PathVariable int id){
         interAbout.deleteAbout(id);
         return "OK 5/5 ---";
-    }*/
+    }
     
     @PutMapping("/about/{id}")
     public About editFact(@PathVariable int id,
