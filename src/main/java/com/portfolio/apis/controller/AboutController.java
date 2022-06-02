@@ -14,16 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "true")
 @RestController
 public class AboutController {
     
     @Autowired
     private IAboutService interAbout;
     
-    @CrossOrigin(origins = {
-        "https://localhost:4200",
-        "portfolio-5fd97.web.app"
-    })
     @GetMapping("/about")
     public List<About> getAbout(){
         return interAbout.getAbout();
