@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@RestController
 public class LoginController {
     
     @PostMapping("/login")
@@ -20,6 +21,5 @@ public class LoginController {
     @GetMapping("/login/{token}")
     public boolean checkToken(@PathVariable String token){
         return token.equals("0101");
-    }
-    
+    }    
 }
