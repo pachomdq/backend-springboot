@@ -28,7 +28,7 @@ public class AboutController {
     }
     //Este elemento no se debe crear. Es unico en la base de datos en este diseño
     @PostMapping("/about")
-    public String createFact(@RequestBody About about){
+    public String createAbout(@RequestBody About about){
         interAbout.saveAbout(about);
         return "OK 5/5 +++";
     }
@@ -36,13 +36,13 @@ public class AboutController {
     
     //Este elemento no se puede borrar en este diseño
     @DeleteMapping("/about/{id}")
-    public String deleteFact(@PathVariable int id){
+    public String deleteAbout(@PathVariable int id){
         interAbout.deleteAbout(id);
         return "OK 5/5 ---";
     }
     
     @PutMapping("/about/{id}")
-    public About editFact(@PathVariable int id,
+    public About editAbout(@PathVariable int id,
                           @RequestParam("nombre") String nNombre,
                           @RequestParam("imagenURL") String nImagenURL,
                           @RequestParam("introduccion") String nIntroduccion,
