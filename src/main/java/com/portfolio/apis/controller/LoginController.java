@@ -8,19 +8,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 public class LoginController {
-    
+    String key = "claveprivada";
     @PostMapping("/login")
     public User login(@RequestBody User user){
+        
         if (user.getUsuario().equals("usuario") && user.getPassword().equals("12345678")){
-            user.setToken("0101");
+            
+            String token = org.apache.commons.codec.digest.DigestUtils.sha256Hex(user.getUsuario() + this.key);
+            user.setToken(token);
         }
         return user;
     }
     
-    @GetMapping("/login/{token}")
-    public boolean checkToken(@PathVariable String token){
-        return token.equals("0101");
+    @GetMapping("/login/{usr}/{token}")
+    public boolean checkToken(@PathVariable String usr, @PathVariable String token){
+        String tokenGenerado = org.apache.commons.codec.digest.DigestUtils.sha256Hex(usr + this.key);
+        return token.equals(tokenGenerado);
     }    
 }
