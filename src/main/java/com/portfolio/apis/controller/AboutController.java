@@ -41,9 +41,12 @@ public class AboutController {
         return "OK 5/5 ---";
     }
     
-    @PutMapping("/about/{id}")
+    @PutMapping("/about/{id}/{usuario}/{token}")
     public About editAbout(@PathVariable int id,
-                          @RequestParam("nombre") String nNombre,
+                           @RequestBody About nAbout,
+                           @RequestParam("token") String token,
+                           @RequestParam("usuario") String usuario){
+                     /*     @RequestParam("nombre") String nNombre,
                           @RequestParam("imagenURL") String nImagenURL,
                           @RequestParam("introduccion") String nIntroduccion,
                           @RequestParam("cargo") String nCargo,
@@ -56,23 +59,27 @@ public class AboutController {
                           @RequestParam("email") String nEmail,
                           @RequestParam("freelance") String nFreelance,
                           @RequestParam("notas") String nNotas,
-                          @RequestParam("resumen") String nResumen){
-        About about = interAbout.findAbout(id);
-        about.setNombre(nNombre);
-        about.setImagenURL(nImagenURL);
-        about.setIntroduccion(nIntroduccion);
-        about.setCargo(nCargo);
-        about.setDetalleCargo(nDetalleCargo);
-        about.setFechaNacimiento(nFechaNacimiento);
-        about.setDireccion(nDireccion);
-        about.setTelefono(nTelefono);
-        about.setCiudad(nCiudad);
-        about.setEdad(nEdad);
-        about.setEmail(nEmail);
-        about.setFreelance(nFreelance);
-        about.setNotas(nNotas);
-        about.setResumen(nResumen);
-        interAbout.saveAbout(about);
-        return about;
+                          @RequestParam("resumen") String nResumen){*/
+        
+        if (LoginController.checkToken(usuario, token)){          
+            About about = interAbout.findAbout(id);
+            about.setNombre(nAbout.getNombre());
+            about.setImagenURL(nAbout.getImagenURL());
+            about.setIntroduccion(nAbout.getIntroduccion());
+            about.setCargo(nAbout.getCargo());
+            about.setDetalleCargo(nAbout.getDetalleCargo());
+            about.setFechaNacimiento(nAbout.getFechaNacimiento());
+            about.setDireccion(nAbout.getDireccion());
+            about.setTelefono(nAbout.getTelefono());
+            about.setCiudad(nAbout.getCiudad());
+            about.setEdad(nAbout.getEdad());
+            about.setEmail(nAbout.getEdad());
+            about.setFreelance(nAbout.getFreelance());
+            about.setNotas(nAbout.getNotas());
+            about.setResumen(nAbout.getResumen());
+            interAbout.saveAbout(about);
+            return about;
+        }
+        return null;
     }
 }
