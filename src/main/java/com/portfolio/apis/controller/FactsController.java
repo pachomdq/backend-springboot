@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
@@ -27,28 +27,41 @@ public class FactsController {
         return interFacts.getFacts();
     }
     
-    @PostMapping("/facts")
-    public String createFact(@RequestBody Facts fact){
-        interFacts.saveFacts(fact);
-        return "OK 5/5 +++";
+    @PostMapping("/facts/{usuario}/{token}")
+    public String createFact(@PathVariable String usuario,
+                             @PathVariable String token,
+                             @RequestBody Facts fact){
+        if (LoginController.checkToken(usuario, token)){
+            interFacts.saveFacts(fact);
+            return "OK 5/5 +++";
+        }
+        return "Usuario no autorizado. Abortando creacion de elemento facts";
     }
     
-    @DeleteMapping("/facts/{id}")
-    public String deleteFact(@PathVariable int id){
-        interFacts.deleteFacts(id);
-        return "OK 5/5 ---";
+    @DeleteMapping("/facts/{id}/{usuario}/{token}") 
+    public String deleteFact(@PathVariable int id,
+                             @PathVariable String usuario,
+                             @PathVariable String token){
+        if (LoginController.checkToken(usuario, token)){
+            interFacts.deleteFacts(id);
+            return "OK 5/5 ---";
+        }
+        return "Usuario no autorizado. Abortando eliminacion de elemento facts";
     }
     
-    @PutMapping("/facts/{id}")
+    @PutMapping("/facts/{id}/{usuario}/{token}")
     public Facts editFact(@PathVariable int id,
-                          @RequestParam("imagenURL") String nImagenURL,
-                          @RequestParam("texto") String nTexto,
-                          @RequestParam("horas") int nHoras){
-        Facts fact = interFacts.findFacts(id);
-        fact.setHoras(nHoras);
-        fact.setTexto(nTexto);
-        fact.setImagenURL(nImagenURL);
-        interFacts.saveFacts(fact);
-        return fact;
+                          @PathVariable String usuario,
+                          @PathVariable String token,
+                          @RequestBody Facts nFact){
+        if (LoginController.checkToken(usuario, token)){
+            Facts fact = interFacts.findFacts(id);
+            fact.setHoras(nFact.getHoras());
+            fact.setTexto(nFact.getTexto());
+            fact.setImagenURL(nFact.getImagenURL());
+            interFacts.saveFacts(fact);
+            return fact;
+        }
+        return nFact;
     }
 }

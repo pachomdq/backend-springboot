@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
@@ -27,30 +27,42 @@ public class ExperienciaController {
         return interExperiencia.getExperiencia();
     }
     
-    @PostMapping("/experiencia")
-    public String createFact(@RequestBody Experiencia experiencia){
-        interExperiencia.saveExperiencia(experiencia);
-        return "OK 5/5 +++";
+    @PostMapping("/experiencia/{usuario}/{token}")
+    public String createExperiencia(@PathVariable String usuario,
+                             @PathVariable String token,
+                             @RequestBody Experiencia experiencia){
+        if (LoginController.checkToken(usuario, token)){
+            interExperiencia.saveExperiencia(experiencia);
+            return "OK 5/5 +++";
+        }
+        return "Usuario sin autorizacion. Abortando creacion de elemento experiencia";
     }
     
-    @DeleteMapping("/experiencia/{id}")
-    public String deleteFact(@PathVariable int id){
-        interExperiencia.deleteExperiencia(id);
-        return "OK 5/5 ---";
+    @DeleteMapping("/experiencia/{id}/{usuario}/{token}")
+    public String deleteExperiencia(@PathVariable int id,
+                             @PathVariable String usuario,
+                             @PathVariable String token){
+        if (LoginController.checkToken(usuario, token)){
+            interExperiencia.deleteExperiencia(id);
+            return "OK 5/5 ---";
+        }
+        return "Usuario sin autorizacion. Abortando eliminacion de elemento experiencia";
     }
     
-    @PutMapping("/experiencia/{id}")
-    public Experiencia editFact(@PathVariable int id,
-                          @RequestParam("nombre") String nNombre,
-                          @RequestParam("fecha") String nFecha,
-                          @RequestParam("lugar") String nLugar,
-                          @RequestParam("detalle") String nDetalle){
-        Experiencia experiencia = interExperiencia.findExperiencia(id);
-        experiencia.setNombre(nNombre);
-        experiencia.setFecha(nFecha);
-        experiencia.setLugar(nLugar);
-        experiencia.setDetalle(nDetalle);
-        interExperiencia.saveExperiencia(experiencia);
-        return experiencia;
+    @PutMapping("/experiencia/{id}/{usuario}/{token}")
+    public Experiencia editExperiencia(@PathVariable int id,
+                                       @PathVariable String usuario,
+                                       @PathVariable String token,
+                                       @RequestBody Experiencia nExperiencia){
+        if (LoginController.checkToken(usuario, token)){
+            Experiencia experiencia = interExperiencia.findExperiencia(id);
+            experiencia.setNombre(nExperiencia.getNombre());
+            experiencia.setFecha(nExperiencia.getFecha());
+            experiencia.setLugar(nExperiencia.getLugar());
+            experiencia.setDetalle(nExperiencia.getDetalle());
+            interExperiencia.saveExperiencia(experiencia);
+            return experiencia;
+        }
+        return nExperiencia;
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
@@ -27,28 +27,41 @@ public class PortfolioController {
         return interPortfolio.getPortfolio();
     }
     
-    @PostMapping("/portfolio")
-    public String createPortfolio(@RequestBody Portfolio portfolio){
-        interPortfolio.savePortfolio(portfolio);
-        return "OK 5/5 +++";
+    @PostMapping("/portfolio/{usuario}/{token}")
+    public String createPortfolio(@PathVariable String usuario,
+                                  @PathVariable String token,
+                                  @RequestBody Portfolio portfolio){
+        if (LoginController.checkToken(usuario, token)){
+            interPortfolio.savePortfolio(portfolio);
+            return "OK 5/5 +++";
+        }
+        return "Usuario no autorizado. Abortando creacion de elemento portfolio";
     }
     
-    @DeleteMapping("/portfolio/{id}")
-    public String deletePortfolio(@PathVariable int id){
-        interPortfolio.deletePortfolio(id);
-        return "OK 5/5 ---";
+    @DeleteMapping("/portfolio/{id}/{usuario}/{token}")
+    public String deletePortfolio(@PathVariable int id,
+                                  @PathVariable String usuario,
+                                  @PathVariable String token){
+        if (LoginController.checkToken(usuario, token)){
+            interPortfolio.deletePortfolio(id);
+            return "OK 5/5 ---";
+        }
+        return "Usuario no autorizado. Abortando eliminacion de elemento portfolio";
     }
     
-    @PutMapping("/portfolio/{id}")
+    @PutMapping("/portfolio/{id}/{usuario}/{token}")
     public Portfolio editPortfolio(@PathVariable int id,
-                          @RequestParam("src") String nSrc,
-                          @RequestParam("thumb") String nThumb,
-                          @RequestParam("caption") String nCaption){
-        Portfolio portfolio = interPortfolio.findPortfolio(id);
-        portfolio.setSrc(nSrc);
-        portfolio.setThumb(nThumb);
-        portfolio.setCaption(nCaption);
-        interPortfolio.savePortfolio(portfolio);
-        return portfolio;
+                                   @PathVariable String usuario,
+                                   @PathVariable String token,
+                                   @RequestBody Portfolio nPortfolio){
+        if (LoginController.checkToken(usuario, token)){
+            Portfolio portfolio = interPortfolio.findPortfolio(id);
+            portfolio.setSrc(nPortfolio.getSrc());
+            portfolio.setThumb(nPortfolio.getThumb());
+            portfolio.setCaption(nPortfolio.getCaption());
+            interPortfolio.savePortfolio(portfolio);
+            return portfolio;
+        }
+        return nPortfolio;
     }
 }

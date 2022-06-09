@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
@@ -29,16 +29,16 @@ public class AboutController {
     //Este elemento no se debe crear. Es unico en la base de datos en este diseño
     @PostMapping("/about")
     public String createAbout(@RequestBody About about){
-        interAbout.saveAbout(about);
-        return "OK 5/5 +++";
+        //interAbout.saveAbout(about);
+        return "Metodo no permitido";
     }
      
     
     //Este elemento no se puede borrar en este diseño
     @DeleteMapping("/about/{id}")
     public String deleteAbout(@PathVariable int id){
-        interAbout.deleteAbout(id);
-        return "OK 5/5 ---";
+            //interAbout.deleteAbout(id);
+            return "Metodo no permitido";
     }
     
     @PutMapping("/about/{id}/{usuario}/{token}")
@@ -46,21 +46,6 @@ public class AboutController {
                            @PathVariable String usuario,
                            @PathVariable String token,
                            @RequestBody About nAbout){
-                     /*     @RequestParam("nombre") String nNombre,
-                          @RequestParam("imagenURL") String nImagenURL,
-                          @RequestParam("introduccion") String nIntroduccion,
-                          @RequestParam("cargo") String nCargo,
-                          @RequestParam("detalleCargo") String nDetalleCargo,
-                          @RequestParam("fechaNacimiento") String nFechaNacimiento,
-                          @RequestParam("telefono") String nTelefono,
-                          @RequestParam("direccion") String nDireccion,
-                          @RequestParam("ciudad") String nCiudad,
-                          @RequestParam("edad") String nEdad,
-                          @RequestParam("email") String nEmail,
-                          @RequestParam("freelance") String nFreelance,
-                          @RequestParam("notas") String nNotas,
-                          @RequestParam("resumen") String nResumen){*/
-        
         if (LoginController.checkToken(usuario, token)){          
             About about = interAbout.findAbout(id);
             about.setNombre(nAbout.getNombre());
