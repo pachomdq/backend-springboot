@@ -27,8 +27,9 @@ public class LoginController {
     }
     
     @GetMapping("/login/{usr}/{token}")
-    public boolean checkToken(@PathVariable String usr, @PathVariable String token){
-        String tokenGenerado = org.apache.commons.codec.digest.DigestUtils.sha256Hex(usr + this.key);
+    static boolean checkToken(@PathVariable String usr, @PathVariable String token){
+        String key = "JoseMariaGomezArgentinaPrograma";
+        String tokenGenerado = org.apache.commons.codec.digest.DigestUtils.sha256Hex(usr + key);
         return token.equals(tokenGenerado);
     }    
 }
