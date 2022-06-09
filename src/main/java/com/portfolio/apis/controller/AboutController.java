@@ -80,6 +80,6 @@ public class AboutController {
             interAbout.saveAbout(about);
             return about;
         }
-        return null;
+        return nAbout;
     }
 }
