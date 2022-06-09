@@ -43,9 +43,9 @@ public class AboutController {
     
     @PutMapping("/about/{id}/{usuario}/{token}")
     public About editAbout(@PathVariable int id,
-                           @RequestBody About nAbout,
-                           @RequestParam("token") String token,
-                           @RequestParam("usuario") String usuario){
+                           @PathVariable String usuario,
+                           @PathVariable String token,
+                           @RequestBody About nAbout){
                      /*     @RequestParam("nombre") String nNombre,
                           @RequestParam("imagenURL") String nImagenURL,
                           @RequestParam("introduccion") String nIntroduccion,
