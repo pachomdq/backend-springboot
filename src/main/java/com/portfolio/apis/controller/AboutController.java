@@ -58,7 +58,7 @@ public class AboutController {
             about.setTelefono(nAbout.getTelefono());
             about.setCiudad(nAbout.getCiudad());
             about.setEdad(nAbout.getEdad());
-            about.setEmail(nAbout.getEdad());
+            about.setEmail(nAbout.getEmail());
             about.setFreelance(nAbout.getFreelance());
             about.setNotas(nAbout.getNotas());
             about.setResumen(nAbout.getResumen());
